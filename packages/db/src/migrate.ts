@@ -10,7 +10,9 @@ if (!url) {
 
 const { db, sql } = createDb(url, { max: 1 });
 try {
-  await migrate(db, { migrationsFolder: fileURLToPath(new URL("../migrations", import.meta.url)) });
+  // MIGRATIONS_DIR lets the bundled copy in the sync image point at its own folder.
+  const migrationsFolder = process.env.MIGRATIONS_DIR ?? fileURLToPath(new URL("../migrations", import.meta.url));
+  await migrate(db, { migrationsFolder });
   console.log("migrations applied");
 } finally {
   await sql.end();

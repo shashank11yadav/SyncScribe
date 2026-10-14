@@ -1,0 +1,56 @@
+# Local development stack: Postgres plus the Hocuspocus sync server.
+# The Next.js app runs on the host with `npm run dev -w @syncscribe/web`.
+name: syncscribe
+
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: syncscribe
+      POSTGRES_PASSWORD: syncscribe
+      POSTGRES_DB: syncscribe
+    ports:
+      # 5433 on the host so it does not collide with another local Postgres.
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U syncscribe -d syncscribe"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/sync/Dockerfile
+      target: migrate
+    environment:
+      DATABASE_URL: postgres://syncscribe:syncscribe@db:5432/syncscribe
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  sync:
+    build:
+      context: .
+      dockerfile: apps/sync/Dockerfile
+    environment:
+      PORT: "5201"
+      DATABASE_URL: postgres://syncscribe:syncscribe@db:5432/syncscribe
+      SYNC_TOKEN_SECRET: ${SYNC_TOKEN_SECRET:?set SYNC_TOKEN_SECRET in .env}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5200}
+    ports:
+      - "127.0.0.1:5201:5201"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5201/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
