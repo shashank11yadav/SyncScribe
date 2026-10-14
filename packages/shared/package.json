@@ -1,0 +1,18 @@
+{
+  "name": "@syncscribe/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./markdown": "./src/markdown.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "jose": "^6.2.12",
+    "yjs": "^13.6.33",
+    "zod": "^4.6.7"
+  }
+}

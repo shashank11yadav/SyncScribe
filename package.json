@@ -1,0 +1,45 @@
+{
+  "name": "syncscribe",
+  "private": true,
+  "description": "Real-time collaborative document editor with role-based sharing, built on Next.js, Yjs and a self-hosted Hocuspocus sync server.",
+  "license": "MIT",
+  "author": "Shashank Yadav",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n sync,web -c magenta,cyan \"npm run dev -w @syncscribe/sync\" \"npm run dev -w @syncscribe/web\"",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "eslint .",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "npm run e2e --workspace @syncscribe/web",
+    "db:generate": "npm run generate --workspace @syncscribe/db",
+    "db:migrate": "npm run migrate --workspace @syncscribe/db"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@next/eslint-plugin-next": "^16.4.1",
+    "@types/node": "^24.19.2",
+    "concurrently": "^10.0.6",
+    "eslint": "^10.12.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.0",
+    "globals": "^17.13.0",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "vitest": "^5.0.4"
+  },
+  "overrides": {
+    "eslint-plugin-jsx-a11y": {
+      "eslint": "$eslint"
+    }
+  }
+}
