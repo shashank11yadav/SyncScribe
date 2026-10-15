@@ -82,8 +82,7 @@ function serializeInline(nodes: PMNode[]): string {
     const marks = (node.marks ?? []).map(toInlineMark).filter((m): m is InlineMark => m !== null);
     const isCode = (node.marks ?? []).some((m) => m.type === "code");
 
-    const match = /^(\s*)([\s\S]*?)(\s*)$/.exec(node.text);
-    const [, lead = "", core = "", trail = ""] = match ?? [];
+    const { lead, core, trail } = splitOuterWhitespace(node.text);
     if (!core) {
       pendingSpace += node.text;
       continue;
@@ -108,6 +107,21 @@ function serializeInline(nodes: PMNode[]): string {
 
   closeFrom(0);
   return out + pendingSpace;
+}
+
+const WHITESPACE = /\s/;
+
+/**
+ * Splits leading and trailing whitespace off a text run. A scan instead of a
+ * regex like /^(\s*)(.*?)(\s*)$/, which backtracks quadratically on long runs
+ * of spaces in user text.
+ */
+export function splitOuterWhitespace(text: string): { lead: string; core: string; trail: string } {
+  let start = 0;
+  while (start < text.length && WHITESPACE.test(text.charAt(start))) start++;
+  let end = text.length;
+  while (end > start && WHITESPACE.test(text.charAt(end - 1))) end--;
+  return { lead: text.slice(0, start), core: text.slice(start, end), trail: text.slice(end) };
 }
 
 function indent(text: string, prefix: string, first: string): string {

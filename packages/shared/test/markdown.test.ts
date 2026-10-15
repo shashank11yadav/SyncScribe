@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { toMarkdown, type PMNode } from "../src/markdown";
+import { splitOuterWhitespace, toMarkdown, type PMNode } from "../src/markdown";
 
 const doc = (...content: PMNode[]): PMNode => ({ type: "doc", content });
 const p = (...content: PMNode[]): PMNode => ({ type: "paragraph", content });
@@ -65,5 +65,23 @@ describe("toMarkdown", () => {
 
   it("returns a single newline for an empty document", () => {
     expect(toMarkdown(doc())).toBe("\n");
+  });
+});
+
+describe("splitOuterWhitespace", () => {
+  it("splits leading and trailing whitespace from the core", () => {
+    expect(splitOuterWhitespace("  two words \t")).toEqual({ lead: "  ", core: "two words", trail: " \t" });
+    expect(splitOuterWhitespace("bare")).toEqual({ lead: "", core: "bare", trail: "" });
+    expect(splitOuterWhitespace("   ")).toEqual({ lead: "   ", core: "", trail: "" });
+    expect(splitOuterWhitespace("")).toEqual({ lead: "", core: "", trail: "" });
+  });
+
+  it("stays linear on long runs of spaces", () => {
+    const spaces = " ".repeat(100_000);
+    const started = performance.now();
+    const parts = splitOuterWhitespace(`${spaces}x${spaces}y${spaces}`);
+    expect(performance.now() - started).toBeLessThan(500);
+    expect(parts.core).toBe(`x${spaces}y`);
+    expect(parts.lead.length + parts.trail.length).toBe(200_000);
   });
 });
