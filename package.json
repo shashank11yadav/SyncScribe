@@ -4,6 +4,11 @@
   "description": "Real-time collaborative document editor with role-based sharing, built on Next.js, Yjs and a self-hosted Hocuspocus sync server.",
   "license": "MIT",
   "author": "Shashank Yadav",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shashank11yadav/collaborative-editor.git"
+  },
+  "homepage": "https://github.com/shashank11yadav/collaborative-editor#readme",
   "type": "module",
   "workspaces": [
     "apps/*",
