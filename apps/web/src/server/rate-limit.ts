@@ -12,7 +12,7 @@ export interface Limit {
 
 export const LIMITS = {
   share: { max: 20, windowSeconds: 600 },
-  sandboxToken: { max: 30, windowSeconds: 60 },
+  sandboxToken: { max: 60, windowSeconds: 60 },
   createDocument: { max: 30, windowSeconds: 600 },
 } as const satisfies Record<string, Limit>;
 

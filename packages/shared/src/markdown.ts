@@ -67,7 +67,7 @@ function serializeInline(nodes: PMNode[]): string {
   const active: InlineMark[] = [];
 
   const closeFrom = (index: number) => {
-    while (active.length > index) out += active.pop()!.close;
+    while (active.length > index) out += active.pop()?.close ?? "";
   };
 
   for (const node of nodes) {
@@ -91,7 +91,7 @@ function serializeInline(nodes: PMNode[]): string {
 
     // Keep the longest run of marks that is still open, close the rest.
     let keep = 0;
-    while (keep < active.length && marks.some((m) => m.key === active[keep]!.key)) keep++;
+    while (keep < active.length && marks.some((m) => m.key === active[keep]?.key)) keep++;
     closeFrom(keep);
 
     out += pendingSpace + lead;

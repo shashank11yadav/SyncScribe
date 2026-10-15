@@ -33,12 +33,14 @@ function buildAdapter(): Adapter {
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
   });
+  const linkAccount = base.linkAccount;
+  if (!linkAccount) throw new Error("Drizzle adapter is missing linkAccount");
   return {
     ...base,
     // The app never calls the GitHub API on the user's behalf after sign-in,
     // so there is no reason to keep their OAuth tokens around.
     linkAccount: (account) =>
-      base.linkAccount!({ ...account, access_token: undefined, refresh_token: undefined, id_token: undefined }),
+      linkAccount({ ...account, access_token: undefined, refresh_token: undefined, id_token: undefined }),
   };
 }
 

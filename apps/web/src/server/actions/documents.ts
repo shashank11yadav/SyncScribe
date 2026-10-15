@@ -15,7 +15,7 @@ import { getRole, requireDocAccess } from "../access";
 import { getDb } from "../db";
 import { UserFacingError } from "../errors";
 import { LIMITS, consume } from "../rate-limit";
-import { runAction, type ActionResult } from "../result";
+import { runAction, single, type ActionResult } from "../result";
 import { requireUser } from "../session";
 
 export async function createDocument(input: unknown): Promise<ActionResult<{ id: string }>> {
@@ -25,12 +25,9 @@ export async function createDocument(input: unknown): Promise<ActionResult<{ id:
     await consume(`create:${user.id}`, LIMITS.createDocument);
 
     const id = await getDb().transaction(async (tx) => {
-      const [doc] = await tx
-        .insert(documents)
-        .values({ title: title ?? "Untitled" })
-        .returning({ id: documents.id });
-      await tx.insert(documentMembers).values({ documentId: doc!.id, userId: user.id, role: "owner", addedBy: user.id });
-      return doc!.id;
+      const doc = single(await tx.insert(documents).values({ title: title ?? "Untitled" }).returning({ id: documents.id }));
+      await tx.insert(documentMembers).values({ documentId: doc.id, userId: user.id, role: "owner", addedBy: user.id });
+      return doc.id;
     });
     revalidatePath("/documents");
     return { id };

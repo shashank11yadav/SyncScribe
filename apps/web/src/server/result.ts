@@ -2,6 +2,13 @@ import "server-only";
 import { ZodError } from "zod";
 import { AccessError, RateLimitError, UserFacingError } from "./errors";
 
+/** For INSERT ... RETURNING of a single row, where an empty result is a bug. */
+export function single<T>(rows: T[]): T {
+  const [row] = rows;
+  if (row === undefined) throw new Error("expected one row");
+  return row;
+}
+
 export type ActionResult<T = undefined> = { ok: true; data: T } | { ok: false; error: string };
 
 const ACCESS_MESSAGES = {

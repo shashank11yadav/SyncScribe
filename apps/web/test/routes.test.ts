@@ -156,10 +156,10 @@ describe("POST /api/sandbox/token", () => {
   it("rate limits by client address", async () => {
     requestHeaders.current = new Headers({ "x-real-ip": `192.0.2.${Math.floor(Math.random() * 250)}-${Date.now()}` });
     const statuses: number[] = [];
-    for (let i = 0; i < 31; i++) {
+    for (let i = 0; i < 61; i++) {
       statuses.push((await sandboxRoute(request("/api/sandbox/token", { method: "POST" }))).status);
     }
-    expect(statuses.slice(0, 30).every((s) => s === 200)).toBe(true);
-    expect(statuses[30]).toBe(429);
+    expect(statuses.slice(0, 60).every((s) => s === 200)).toBe(true);
+    expect(statuses[60]).toBe(429);
   });
 });

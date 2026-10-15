@@ -6,7 +6,7 @@ import { requireDocAccess } from "../access";
 import { getDb } from "../db";
 import { UserFacingError } from "../errors";
 import { getDocumentState } from "../queries";
-import { runAction, type ActionResult } from "../result";
+import { runAction, single, type ActionResult } from "../result";
 
 /**
  * Saves the last persisted state as a named version. The editor calls this
@@ -18,10 +18,12 @@ export async function createSnapshot(input: unknown): Promise<ActionResult<{ id:
     const { user } = await requireDocAccess(docId, "doc.snapshot");
     const state = await getDocumentState(docId);
     if (!state || state.byteLength === 0) throw new UserFacingError("Nothing to save yet. Type something first.");
-    const [row] = await getDb()
-      .insert(documentVersions)
-      .values({ documentId: docId, state, kind: "manual", createdBy: user.id })
-      .returning({ id: documentVersions.id });
-    return { id: row!.id };
+    const row = single(
+      await getDb()
+        .insert(documentVersions)
+        .values({ documentId: docId, state, kind: "manual", createdBy: user.id })
+        .returning({ id: documentVersions.id }),
+    );
+    return { id: row.id };
   });
 }
