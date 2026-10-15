@@ -5,6 +5,10 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./roles": "./src/roles.ts",
+    "./identity": "./src/identity.ts",
+    "./schemas": "./src/schemas.ts",
+    "./sandbox-seed": "./src/sandbox-seed.ts",
     "./markdown": "./src/markdown.ts"
   },
   "scripts": {
