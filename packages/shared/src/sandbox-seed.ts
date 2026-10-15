@@ -12,15 +12,16 @@ function paragraph(type: string, inline: Inline[], attrs: Record<string, string 
     element.setAttribute(key, value as unknown as string);
   }
   const text = new Y.XmlText();
+  const markNames = new Set(inline.flatMap((part) => (typeof part === "string" ? [] : Object.keys(part.marks))));
   let offset = 0;
   for (const part of inline) {
-    if (typeof part === "string") {
-      text.insert(offset, part);
-      offset += part.length;
-    } else {
-      text.insert(offset, part.text, part.marks);
-      offset += part.text.length;
-    }
+    const value = typeof part === "string" ? part : part.text;
+    // Yjs carries formatting over from the preceding character unless every
+    // mark is set explicitly, so unmarked runs pass null for each one.
+    const format: Record<string, unknown> = {};
+    for (const name of markNames) format[name] = typeof part === "string" ? null : (part.marks[name] ?? null);
+    text.insert(offset, value, format);
+    offset += value.length;
   }
   element.insert(0, [text]);
   return element;

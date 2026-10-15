@@ -13,6 +13,18 @@ describe("writeSandboxSeed", () => {
     expect(first).toContain("Welcome to the SyncScribe sandbox");
   });
 
+  it("does not let a mark bleed into the following plain text", () => {
+    const doc = new Y.Doc();
+    writeSandboxSeed(doc);
+    const list = doc.getXmlFragment(EDITOR_FIELD).get(3) as Y.XmlElement;
+    const item = list.get(1) as Y.XmlElement;
+    const text = (item.get(0) as Y.XmlElement).get(0) as Y.XmlText;
+    const runs = text.toDelta() as Array<{ insert: string; attributes?: Record<string, unknown> }>;
+    const like = runs.find((run) => run.insert === " like ");
+    expect(like?.attributes ?? {}).toEqual({});
+    expect(runs.find((run) => run.insert === "Markdown shortcuts")?.attributes).toEqual({ bold: {} });
+  });
+
   it("propagates a reset to a peer that still holds old content", () => {
     const server = new Y.Doc();
     const client = new Y.Doc();
