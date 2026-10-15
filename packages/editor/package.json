@@ -8,6 +8,7 @@
   ],
   "exports": {
     ".": "./src/index.ts",
+    "./ui": "./src/ui.ts",
     "./state": "./src/state.ts",
     "./styles.css": "./src/styles.css"
   },
