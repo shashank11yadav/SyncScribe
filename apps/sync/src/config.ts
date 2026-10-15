@@ -16,6 +16,13 @@ const schema = z.object({
         .map((origin) => origin.trim())
         .filter(Boolean),
     ),
+  // Websocket upgrades allowed per client address per minute.
+  MAX_CONNECTIONS_PER_MINUTE: z.coerce.number().int().min(1).default(120),
+  // Set when running behind a reverse proxy that appends X-Forwarded-For.
+  TRUST_PROXY: z
+    .enum(["true", "false", "1", "0"])
+    .default("false")
+    .transform((value) => value === "true" || value === "1"),
   SNAPSHOT_INTERVAL_SECONDS: z.coerce.number().int().min(10).default(600),
   SANDBOX_RESET_MINUTES: z.coerce.number().int().min(1).default(30),
   SANDBOX_MAX_BYTES: z.coerce.number().int().min(1024).default(256 * 1024),

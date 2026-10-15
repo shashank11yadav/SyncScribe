@@ -1,7 +1,6 @@
 import type { IncomingMessage } from "node:http";
 import type { Duplex } from "node:stream";
 import { Server, type Extension } from "@hocuspocus/server";
-import { Throttle } from "@hocuspocus/extension-throttle";
 import * as Y from "yjs";
 import { ACCESS_CHANNEL, type DbHandle } from "@syncscribe/db";
 import { EDITOR_FIELD, SANDBOX_DOCUMENT, docDocumentName, docIdSchema, parseDocumentName, writeSandboxSeed } from "@syncscribe/shared";
@@ -9,12 +8,11 @@ import { AuthRejection, authenticate, type SyncContext } from "./auth";
 import type { SyncConfig } from "./config";
 import { log } from "./log";
 import { loadDocumentState, storeDocumentState } from "./persistence";
+import { UpgradeThrottle } from "./throttle";
 
 export interface SyncServerOptions {
   config: SyncConfig;
   database: DbHandle;
-  /** Disable the connection throttle in tests that open many sockets quickly. */
-  throttle?: boolean;
 }
 
 function rejectUpgrade(socket: Duplex, status: string): never {
@@ -24,9 +22,10 @@ function rejectUpgrade(socket: Duplex, status: string): never {
   throw null;
 }
 
-export function createSyncServer({ config, database, throttle = true }: SyncServerOptions) {
+export function createSyncServer({ config, database }: SyncServerOptions) {
   const { db, sql } = database;
   const allowedOrigins = new Set(config.ALLOWED_ORIGINS);
+  const throttle = new UpgradeThrottle(config.MAX_CONNECTIONS_PER_MINUTE, 60_000, config.TRUST_PROXY);
   const timers: NodeJS.Timeout[] = [];
   let unlisten: (() => Promise<void>) | null = null;
 
@@ -41,6 +40,10 @@ export function createSyncServer({ config, database, throttle = true }: SyncServ
       if (origin && !allowedOrigins.has(origin)) {
         log("warn", "rejected websocket origin", { origin });
         rejectUpgrade(socket, "403 Forbidden");
+      }
+      if (!throttle.allow(throttle.clientAddress(request))) {
+        log("warn", "throttled websocket upgrade");
+        rejectUpgrade(socket, "429 Too Many Requests");
       }
     },
 
@@ -164,10 +167,6 @@ export function createSyncServer({ config, database, throttle = true }: SyncServ
   }
 
   const extensions: Extension[] = [app];
-  if (throttle) {
-    // Bans an address for five minutes after 30 connection attempts in a minute.
-    extensions.unshift(new Throttle({ throttle: 30, consideredSeconds: 60, banTime: 5 }));
-  }
 
   const server = new Server({
     name: "syncscribe-sync",

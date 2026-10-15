@@ -15,12 +15,14 @@ export async function startServer(overrides: Partial<SyncConfig> = {}) {
     DATABASE_URL: testDatabaseUrl(),
     SYNC_TOKEN_SECRET: TEST_SYNC_SECRET,
     ALLOWED_ORIGINS: ["http://localhost:5200"],
+    MAX_CONNECTIONS_PER_MINUTE: 10_000,
+    TRUST_PROXY: false,
     SNAPSHOT_INTERVAL_SECONDS: 600,
     SANDBOX_RESET_MINUTES: 30,
     SANDBOX_MAX_BYTES: 256 * 1024,
     ...overrides,
   };
-  const { server, resetSandbox } = createSyncServer({ config, database, throttle: false });
+  const { server, resetSandbox } = createSyncServer({ config, database });
   await server.listen();
   const url = `ws://127.0.0.1:${server.address.port}`;
   return {

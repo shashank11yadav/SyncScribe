@@ -289,6 +289,23 @@ describe("transport checks", () => {
     expect(await upgrade("http://localhost:5200")).toBe(101);
   });
 
+  it("refuses upgrades past the per-address limit", async () => {
+    const limited = await startServer({ MAX_CONNECTIONS_PER_MINUTE: 2 });
+    const statusOf = () =>
+      new Promise<number>((resolve) => {
+        const socket = new WebSocket(limited.url);
+        socket.on("open", () => {
+          socket.close();
+          resolve(101);
+        });
+        socket.on("unexpected-response", (_req, res) => resolve(res.statusCode ?? 0));
+        socket.on("error", () => resolve(-1));
+      });
+    const results = [await statusOf(), await statusOf(), await statusOf()];
+    await limited.stop();
+    expect(results).toEqual([101, 101, 429]);
+  });
+
   it("answers health checks", async () => {
     const res = await fetch(`http://127.0.0.1:${ctx.server.address.port}/healthz`);
     expect(res.status).toBe(200);
