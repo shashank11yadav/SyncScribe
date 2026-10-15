@@ -23,13 +23,19 @@ export default defineConfig({
         },
       },
       {
-        resolve: { alias: { "@": new URL("./apps/web/src", import.meta.url).pathname } },
+        resolve: {
+          alias: {
+            "@": new URL("./apps/web/src", import.meta.url).pathname,
+            "server-only": new URL("./apps/web/test/server-only-stub.ts", import.meta.url).pathname,
+          },
+        },
         test: {
           name: "web",
           root: "apps/web",
           include: ["test/**/*.test.ts"],
           environment: "node",
           globalSetup: ["../../test/global-setup.ts"],
+          setupFiles: ["./test/setup.ts"],
           testTimeout: 20_000,
           hookTimeout: 30_000,
         },
