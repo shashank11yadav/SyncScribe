@@ -308,7 +308,7 @@ Built on these open-source projects:
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) (MIT) and [Lucide](https://github.com/lucide-icons/lucide) icons (ISC)
 - [Vitest](https://github.com/vitest-dev/vitest), [Playwright](https://github.com/microsoft/playwright) and [axe-core](https://github.com/dequelabs/axe-core) (MPL-2.0) for testing
 
-The first version of this repository followed the JavaScript Mastery "LiveDocs" tutorial ([adrianhajdin/collaborative-editor](https://github.com/adrianhajdin/collaborative-editor)). This version is a rewrite with a different architecture and none of that code remains in the current tree; it still exists in the git history.
+The first version of this repository followed the JavaScript Mastery "LiveDocs" tutorial ([adrianhajdin/collaborative-editor](https://github.com/adrianhajdin/collaborative-editor)). This version is a rewrite with a different architecture; none of that code remains.
 
 ## License
 
