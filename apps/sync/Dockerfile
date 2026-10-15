@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Build from the repository root: docker build -f apps/sync/Dockerfile .
 
-FROM node:24-alpine AS build
+FROM node:25-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 COPY apps/sync/package.json apps/sync/
@@ -15,7 +15,7 @@ COPY packages/db packages/db
 COPY apps/sync apps/sync
 RUN npm run build --workspace @syncscribe/sync
 
-FROM node:24-alpine AS runtime
+FROM node:25-alpine AS runtime
 ENV NODE_ENV=production \
     MIGRATIONS_DIR=/app/migrations
 WORKDIR /app
