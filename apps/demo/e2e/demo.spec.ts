@@ -186,3 +186,22 @@ test("the layout fits a 375px phone without horizontal scrolling", async ({ page
   await waitUntilEditable(page);
   expect(await overflow(), "document").toBeLessThanOrEqual(0);
 });
+
+test("a tab left open across a deploy reloads instead of going blank", async ({ page, problems }) => {
+  // After a redeploy the old chunk name 404s on GitHub Pages. Fail it once, as a stale tab would see it.
+  let served404 = false;
+  await page.route(/\/assets\/DocumentPage-[^/]+\.js$/, async (route) => {
+    if (served404) return route.continue();
+    served404 = true;
+    await route.fulfill({ status: 404, body: "" });
+  });
+
+  await page.goto("");
+  await page.getByRole("link", { name: "Welcome to SyncScribe" }).click();
+  await waitUntilEditable(page);
+  expect(served404).toBe(true);
+
+  // The one 404 is the point of the test; anything else still fails it.
+  const unexpected = problems.filter((problem) => !problem.includes("status of 404"));
+  problems.splice(0, problems.length, ...unexpected);
+});
