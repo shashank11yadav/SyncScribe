@@ -13,6 +13,14 @@ export default defineConfig({
       },
       {
         test: {
+          name: "editor",
+          root: "packages/editor",
+          include: ["test/**/*.test.ts"],
+          environment: "node",
+        },
+      },
+      {
+        test: {
           name: "sync",
           root: "apps/sync",
           include: ["test/**/*.test.ts"],

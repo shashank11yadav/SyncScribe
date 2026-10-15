@@ -29,18 +29,23 @@ export default tseslint.config(
     },
   },
   {
-    files: ["apps/web/**/*.{ts,tsx}"],
+    files: ["apps/web/**/*.{ts,tsx}", "apps/demo/**/*.{ts,tsx}", "packages/editor/**/*.{ts,tsx}"],
     languageOptions: { globals: { ...globals.browser } },
     plugins: {
-      "@next/next": nextPlugin,
       "react-hooks": reactHooks,
       "jsx-a11y": jsxA11y,
     },
     rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs["core-web-vitals"].rules,
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.flatConfigs.recommended.rules,
+    },
+  },
+  {
+    files: ["apps/web/**/*.{ts,tsx}"],
+    plugins: { "@next/next": nextPlugin },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
     },
     settings: { next: { rootDir: "apps/web" } },
   },

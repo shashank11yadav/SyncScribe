@@ -3,7 +3,7 @@
 import { ExternalLink } from "lucide-react";
 import { useCallback } from "react";
 import { SANDBOX_DOCUMENT } from "@syncscribe/shared";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@syncscribe/editor";
 import { CollaborativeEditor } from "./CollaborativeEditor";
 import { TokenRequestError } from "./useCollaboration";
 

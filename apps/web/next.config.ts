@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   typedRoutes: true,
   agentRules: false,
-  transpilePackages: ["@syncscribe/shared", "@syncscribe/db"],
+  transpilePackages: ["@syncscribe/shared", "@syncscribe/editor", "@syncscribe/db"],
   // One Yjs instance per server process; bundling it into each route creates
   // copies that fail Yjs's constructor checks.
   serverExternalPackages: ["yjs"],

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element -- GitHub avatars are tiny and already sized by GitHub's CDN. */
 export function Avatar({
   name,
   image,

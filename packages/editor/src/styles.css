@@ -1,0 +1,240 @@
+/*
+ * Tokens, editor and caret styles shared by the full app and the static demo.
+ * Import after "tailwindcss" so the @theme block and the @source line below are
+ * picked up by the consuming app's Tailwind build.
+ */
+@source "./";
+
+/* Colour tokens. Every text/background pair used below meets WCAG AA. */
+:root {
+  --paper: #f7f5f0;
+  --surface: #ffffff;
+  --surface-muted: #efece5;
+  --ink: #1b1a17;
+  --ink-muted: #57534e;
+  --line: #d9d4ca;
+  --accent: #0b5d52;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcefe9;
+  --danger: #a1261b;
+  --danger-soft: #fbe9e7;
+  --focus: #1d4ed8;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141413;
+    --surface: #1d1c1a;
+    --surface-muted: #272522;
+    --ink: #eeebe4;
+    --ink-muted: #b4aea4;
+    --line: #3a3732;
+    --accent: #5cc8b4;
+    --accent-ink: #0c1f1b;
+    --accent-soft: #173a33;
+    --danger: #f19387;
+    --danger-soft: #3b1d19;
+    --focus: #93b4ff;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -3rem;
+  z-index: 50;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+}
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+dialog {
+  color: var(--ink);
+  background: var(--surface);
+}
+dialog::backdrop {
+  background: rgb(20 20 19 / 0.45);
+}
+
+/* ---------- Editor ---------- */
+
+/* Core rules ProseMirror needs (normally injected as a style tag, which the CSP forbids). */
+.ProseMirror {
+  position: relative;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
+}
+.ProseMirror pre {
+  white-space: pre-wrap;
+}
+.ProseMirror li {
+  position: relative;
+}
+.ProseMirror-hideselection *::selection {
+  background: transparent;
+}
+.ProseMirror-separator {
+  display: inline !important;
+  border: none !important;
+  margin: 0 !important;
+}
+.ProseMirror-gapcursor {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+}
+.ProseMirror-gapcursor::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid var(--ink);
+}
+.ProseMirror-focused .ProseMirror-gapcursor {
+  display: block;
+}
+
+.prose-doc {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--ink);
+  min-height: 55vh;
+  outline: none;
+  overflow-wrap: anywhere;
+}
+.prose-doc:focus-visible {
+  outline: none;
+}
+.prose-doc > * + * {
+  margin-top: 0.85em;
+}
+.prose-doc h1,
+.prose-doc h2,
+.prose-doc h3 {
+  font-family: var(--font-sans);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.prose-doc h1 { font-size: 1.85rem; margin-top: 1.4em; }
+.prose-doc h2 { font-size: 1.45rem; margin-top: 1.3em; }
+.prose-doc h3 { font-size: 1.2rem; margin-top: 1.2em; }
+.prose-doc > :first-child { margin-top: 0; }
+.prose-doc ul { list-style: disc; padding-left: 1.5rem; }
+.prose-doc ol { list-style: decimal; padding-left: 1.5rem; }
+.prose-doc li + li { margin-top: 0.25em; }
+.prose-doc li > p { margin: 0; }
+.prose-doc blockquote {
+  border-left: 3px solid var(--line);
+  padding-left: 1rem;
+  color: var(--ink-muted);
+}
+.prose-doc code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface-muted);
+  border-radius: 0.25rem;
+  padding: 0.1em 0.3em;
+}
+.prose-doc pre {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  background: var(--surface-muted);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+}
+.prose-doc pre code { background: none; padding: 0; }
+.prose-doc hr { border: none; border-top: 1px solid var(--line); margin: 1.5em 0; }
+.prose-doc a { color: var(--accent); text-decoration: underline; }
+.prose-doc p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--ink-muted);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Remote cursors drawn by the collaboration caret extension. */
+.collaboration-carets__caret {
+  position: relative;
+  margin-left: -1px;
+  margin-right: -1px;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  word-break: normal;
+  pointer-events: none;
+}
+.collaboration-carets__label {
+  position: absolute;
+  top: -1.45em;
+  left: -1px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  color: #ffffff;
+  padding: 0.2rem 0.35rem;
+  border-radius: 0.25rem 0.25rem 0.25rem 0;
+  white-space: nowrap;
+  user-select: none;
+}
+.collaboration-carets__selection {
+  opacity: 0.25;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

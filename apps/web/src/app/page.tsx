@@ -1,6 +1,6 @@
 import { History, KeyRound, Radio, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import { buttonClasses } from "@/components/ui/Button";
+import { buttonClasses } from "@syncscribe/editor";
 import { currentUser } from "@/server/session";
 
 const FEATURES = [

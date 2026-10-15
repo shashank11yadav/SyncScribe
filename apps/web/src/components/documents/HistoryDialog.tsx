@@ -1,11 +1,8 @@
 "use client";
 
-import { EditorContent, useEditor, type Editor, type JSONContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import type { Editor, JSONContent } from "@tiptap/react";
 import { useCallback, useEffect, useState, useTransition } from "react";
-import { Button } from "@/components/ui/Button";
-import { Dialog } from "@/components/ui/Dialog";
-import { timeAgo } from "@/lib/format";
+import { Button, Dialog, timeAgo, VersionPreview } from "@syncscribe/editor";
 import { createSnapshot } from "@/server/actions/versions";
 
 interface Version {
@@ -13,21 +10,6 @@ interface Version {
   kind: "auto" | "manual";
   createdAt: string;
   author: string | null;
-}
-
-function Preview({ content }: { content: JSONContent }) {
-  const editor = useEditor(
-    {
-      immediatelyRender: false,
-      injectCSS: false,
-      editable: false,
-      extensions: [StarterKit],
-      content,
-      editorProps: { attributes: { class: "prose-doc !min-h-0", "aria-label": "Version preview", role: "document" } },
-    },
-    [content],
-  );
-  return <EditorContent editor={editor} />;
 }
 
 /**
@@ -149,7 +131,7 @@ export function HistoryDialog({
             <p className="text-sm text-ink-muted">Loading preview…</p>
           ) : (
             <>
-              <Preview content={content} />
+              <VersionPreview content={content} />
               <div className="mt-4 border-t border-line pt-3">
                 <Button variant="primary" onClick={restore} disabled={pending || !liveEditor}>
                   Restore this version

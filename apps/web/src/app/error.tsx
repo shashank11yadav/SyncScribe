@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@syncscribe/editor";
 
 export default function ErrorPage({ reset }: { error: Error; reset: () => void }) {
   return (

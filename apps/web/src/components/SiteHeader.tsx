@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { signOut } from "@/auth";
-import { Avatar } from "@/components/ui/Avatar";
-import { buttonClasses } from "@/components/ui/Button";
+import { Avatar, buttonClasses } from "@syncscribe/editor";
 import { currentUser } from "@/server/session";
 
 export async function SiteHeader() {

@@ -3,14 +3,9 @@
 import { HocuspocusProvider, WebSocketStatus } from "@hocuspocus/provider";
 import { useEffect, useRef, useState } from "react";
 import * as Y from "yjs";
+import { peersFromStates, type PeerPresence } from "@syncscribe/editor";
 
 export type AccessState = "pending" | "read-write" | "readonly" | "lost";
-
-export interface PeerPresence {
-  clientId: number;
-  name: string;
-  color: string;
-}
 
 export class TokenRequestError extends Error {
   constructor(public readonly status: number) {
@@ -69,11 +64,7 @@ export function useCollaboration(options: {
       },
       onSynced: ({ state }) => setSynced(state),
       onAwarenessChange: ({ states }) => {
-        setPeers(
-          states
-            .filter((s) => s.clientId !== doc.clientID && s.user && typeof s.user.name === "string")
-            .map((s) => ({ clientId: s.clientId, name: String(s.user.name), color: String(s.user.color ?? "#57534e") })),
-        );
+        setPeers(peersFromStates(states.map((s) => [s.clientId, s] as [number, unknown]), doc.clientID));
       },
     });
 

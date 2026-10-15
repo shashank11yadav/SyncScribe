@@ -7,9 +7,8 @@ import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { can, docDocumentName, type Role } from "@syncscribe/shared";
 import { CollaborativeEditor } from "@/components/editor/CollaborativeEditor";
-import { TokenRequestError, type AccessState } from "@/components/editor/useCollaboration";
-import { Button, buttonClasses } from "@/components/ui/Button";
-import { RoleBadge } from "@/components/ui/RoleBadge";
+import { TokenRequestError } from "@/components/editor/useCollaboration";
+import { Button, buttonClasses, RoleBadge } from "@syncscribe/editor";
 import { HistoryDialog } from "./HistoryDialog";
 import { ShareDialog, type InviteItem, type MemberItem } from "./ShareDialog";
 import { TitleField } from "./TitleField";
@@ -51,7 +50,7 @@ export function DocumentWorkspace({
     return body.token;
   }, [docId, router]);
 
-  const onEditor = useCallback((next: Editor | null, _access: AccessState) => setEditor(next), []);
+  const onEditor = useCallback((next: Editor | null) => setEditor(next), []);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6">

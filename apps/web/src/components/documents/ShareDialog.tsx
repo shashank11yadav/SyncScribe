@@ -3,10 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useId, useState, useTransition, type FormEvent } from "react";
 import { can, canChangeRole, canRemoveMember, canTransferTo, type Role, type ShareRole } from "@syncscribe/shared";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { Dialog } from "@/components/ui/Dialog";
-import { RoleBadge } from "@/components/ui/RoleBadge";
+import { Avatar, Button, Dialog, RoleBadge } from "@syncscribe/editor";
 import { deleteDocument, leaveDocument, transferOwnership } from "@/server/actions/documents";
 import { changeMemberRole, removeMember, revokeInvite, shareDocument } from "@/server/actions/sharing";
 import type { ActionResult } from "@/server/result";

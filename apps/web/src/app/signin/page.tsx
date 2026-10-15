@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
-import { buttonClasses } from "@/components/ui/Button";
+import { buttonClasses } from "@syncscribe/editor";
 import { safeRedirectPath } from "@/lib/safe-redirect";
 import { currentUser } from "@/server/session";
 

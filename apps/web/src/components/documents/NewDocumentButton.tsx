@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@syncscribe/editor";
 import { createDocument } from "@/server/actions/documents";
 
 export function NewDocumentButton() {
