@@ -58,7 +58,30 @@ app and the sync server import it.
 The full matrix is in the README and is pinned by
 `packages/shared/test/roles.test.ts`.
 
+## The static demo
+
+`apps/demo`, published to GitHub Pages, has no server, accounts or shared
+documents. Each visitor's documents stay in their own browser, so the threats
+above (forged roles, stolen sessions, other users' documents) do not exist
+there. What it does guard against:
+
+| Threat | What stops it |
+| --- | --- |
+| Another page on the same origin reading or poisoning demo data | All of an account's GitHub Pages project sites share one origin. Keys, databases and channels are prefixed `syncscribe-demo:`, and everything read back (document list, stored versions, BroadcastChannel messages, remote presence) is validated against the exact shapes the demo writes. Invalid entries are dropped one by one. |
+| Corrupt or hostile Yjs bytes | Updates that fail to decode are discarded without touching the document. Remote presence is decoded, reduced to a checked name, colour and cursor, and re-encoded before the editor sees it. |
+| Script injection | A CSP meta tag with `default-src 'self'`, `script-src 'self'`, `style-src 'self'`, `connect-src 'self'`, `object-src 'none'`, `base-uri 'self'` and `form-action 'none'`. No inline scripts or styles and no eval: carets are coloured through the CSSOM and zod runs without code generation. |
+| Data leaving the browser | The page only requests its own files from its own origin, and never sends document content anywhere. The e2e suite fails if any request goes to another host. |
+
+GitHub Pages cannot send response headers, and `frame-ancestors` is ignored
+in a meta tag, so the demo can be framed by another site. It holds no
+credentials or private data, so there is nothing for a clickjacking attack to
+reach.
+
 ## Out of scope / known gaps
+
+- The demo's "Open as viewer" tab only previews the read-only UI. Nothing
+  stops a modified client in that tab from writing, because there is no
+  server to refuse it. The full app enforces this on the sync server.
 
 - The sandbox is public by design. Do not type anything private there.
 - Rate limits are per user or per address and are not a defence against a
