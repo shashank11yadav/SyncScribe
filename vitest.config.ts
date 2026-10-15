@@ -21,6 +21,14 @@ export default defineConfig({
       },
       {
         test: {
+          name: "demo",
+          root: "apps/demo",
+          include: ["test/**/*.test.ts"],
+          environment: "node",
+        },
+      },
+      {
+        test: {
           name: "sync",
           root: "apps/sync",
           include: ["test/**/*.test.ts"],
