@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const ci = Boolean(process.env.CI);
-export const PREVIEW_URL = "http://localhost:5211/collaborative-editor/";
+export const PREVIEW_URL = "http://localhost:5211/SyncScribe/";
 
 /**
  * Runs against `vite preview`, which serves the production build with the

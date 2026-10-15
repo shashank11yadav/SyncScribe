@@ -1,7 +1,7 @@
 name: Pages
 
 # Publishes the static demo in apps/demo to
-# https://shashank11yadav.github.io/collaborative-editor/.
+# https://shashank11yadav.github.io/SyncScribe/.
 # The full app needs a server and is not deployed from here.
 
 on:

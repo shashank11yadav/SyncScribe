@@ -6,9 +6,9 @@
   "author": "Shashank Yadav",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shashank11yadav/collaborative-editor.git"
+    "url": "git+https://github.com/shashank11yadav/SyncScribe.git"
   },
-  "homepage": "https://github.com/shashank11yadav/collaborative-editor#readme",
+  "homepage": "https://github.com/shashank11yadav/SyncScribe#readme",
   "type": "module",
   "workspaces": [
     "apps/*",

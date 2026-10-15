@@ -10,7 +10,7 @@ const DOC_ROUTE = new RegExp(`^#/doc/(${UUID})(/viewer)?$`, "i");
 
 /**
  * Hash routes, because GitHub Pages serves files and has no rewrite rules:
- * a deep link like /collaborative-editor/doc/123 would be a 404.
+ * a deep link like /SyncScribe/doc/123 would be a 404.
  */
 export function parseRoute(hash: string): Route {
   if (hash === "" || hash === "#" || hash === "#/") return { name: "list" };

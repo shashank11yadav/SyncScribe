@@ -25,8 +25,8 @@ function contentSecurityPolicy(): Plugin {
 }
 
 export default defineConfig({
-  // The project site lives at https://shashank11yadav.github.io/collaborative-editor/.
-  base: "/collaborative-editor/",
+  // The project site lives at https://shashank11yadav.github.io/SyncScribe/.
+  base: "/SyncScribe/",
   plugins: [react(), tailwindcss(), contentSecurityPolicy()],
   build: {
     // A data: URI would need img-src data:, so every asset stays a file.

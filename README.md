@@ -2,15 +2,15 @@
 
 A real-time collaborative document editor with role-based sharing, version history and a self-hosted Yjs sync server.
 
-**Live demo: [shashank11yadav.github.io/collaborative-editor](https://shashank11yadav.github.io/collaborative-editor/)**. This is the in-browser demo: it runs entirely in your browser and syncs between your own tabs, with no server behind it.
+**Live demo: [shashank11yadav.github.io/SyncScribe](https://shashank11yadav.github.io/SyncScribe/)**. This is the in-browser demo: it runs entirely in your browser and syncs between your own tabs, with no server behind it.
 
 ![Two tabs of the live demo editing one document. Text typed in one appears in the other, and each cursor carries the other tab's name.](docs/live-demo.gif)
 
 *Two tabs of the GitHub Pages build editing the same document. Captured from the production build with `apps/demo/e2e/readme-media.spec.ts`.*
 
-[![CI](https://github.com/shashank11yadav/collaborative-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/shashank11yadav/collaborative-editor/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/shashank11yadav/collaborative-editor/actions/workflows/codeql.yml/badge.svg)](https://github.com/shashank11yadav/collaborative-editor/actions/workflows/codeql.yml)
-[![Pages](https://github.com/shashank11yadav/collaborative-editor/actions/workflows/pages.yml/badge.svg)](https://github.com/shashank11yadav/collaborative-editor/actions/workflows/pages.yml)
+[![CI](https://github.com/shashank11yadav/SyncScribe/actions/workflows/ci.yml/badge.svg)](https://github.com/shashank11yadav/SyncScribe/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/shashank11yadav/SyncScribe/actions/workflows/codeql.yml/badge.svg)](https://github.com/shashank11yadav/SyncScribe/actions/workflows/codeql.yml)
+[![Pages](https://github.com/shashank11yadav/SyncScribe/actions/workflows/pages.yml/badge.svg)](https://github.com/shashank11yadav/SyncScribe/actions/workflows/pages.yml)
 
 ## The live demo and the full app
 
@@ -229,8 +229,8 @@ The "Open as viewer" tab is a UI preview. A modified client could still write fr
 Requirements: Node 24 (22.12 or newer works) and npm 10 or newer. The full app also needs Docker.
 
 ```bash
-git clone https://github.com/shashank11yadav/collaborative-editor.git
-cd collaborative-editor
+git clone https://github.com/shashank11yadav/SyncScribe.git
+cd SyncScribe
 npm ci
 ```
 
@@ -242,11 +242,11 @@ No database, accounts or `.env` needed.
 npm run dev -w @syncscribe/demo
 ```
 
-Open http://localhost:5210/collaborative-editor/ and use "Open in a new tab" to get a second tab. To check the production build, which is what GitHub Pages serves and the only build with the CSP applied:
+Open http://localhost:5210/SyncScribe/ and use "Open in a new tab" to get a second tab. To check the production build, which is what GitHub Pages serves and the only build with the CSP applied:
 
 ```bash
 npm run build -w @syncscribe/demo
-npm run preview -w @syncscribe/demo   # http://localhost:5211/collaborative-editor/
+npm run preview -w @syncscribe/demo   # http://localhost:5211/SyncScribe/
 ```
 
 ### Run the full app locally

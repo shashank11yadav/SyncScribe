@@ -12,7 +12,7 @@ test("the page ships a strict CSP and the demo banner", async ({ page, request }
   await expect(banner).toContainText("Static demo. Everything runs in your browser and syncs between your own tabs.");
   await expect(banner.getByRole("link", { name: "Run it locally →" })).toHaveAttribute(
     "href",
-    "https://github.com/shashank11yadav/collaborative-editor#run-the-full-app-locally",
+    "https://github.com/shashank11yadav/SyncScribe#run-the-full-app-locally",
   );
   await expect(page.getByRole("link", { name: "Welcome to SyncScribe" })).toBeVisible();
 });
