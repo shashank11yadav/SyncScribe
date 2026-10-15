@@ -49,7 +49,10 @@ export function CollaborativeSurface({ doc, provider, user, canEdit, ready, labe
         // Collaboration brings its own Yjs-aware undo, so the default history is off.
         StarterKit.configure({
           undoRedo: false,
-          link: { openOnClick: false, autolink: true, protocols: ["http", "https", "mailto"] },
+          // Tiptap's default URI check already refuses javascript: and similar schemes.
+          // Listing http/https/mailto under `protocols` only re-registered built-in
+          // schemes with linkify and logged a warning for every editor after the first.
+          link: { openOnClick: false, autolink: true },
         }),
         Collaboration.configure({ document: doc, field: EDITOR_FIELD }),
         CollaborationCaret.configure({ provider, user }),
