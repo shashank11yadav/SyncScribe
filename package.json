@@ -45,6 +45,9 @@
   "overrides": {
     "eslint-plugin-jsx-a11y": {
       "eslint": "$eslint"
+    },
+    "@esbuild-kit/core-utils": {
+      "esbuild": ">=0.25.0"
     }
   }
 }
