@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { EditorSkeleton } from "@syncscribe/editor/ui";
 import { DemoBanner } from "./components/DemoBanner";
 import { DocumentListPage } from "./components/DocumentListPage";
+import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { DemoProvider } from "./demo-context";
 import { LIST_HREF, parseRoute } from "./lib/route";
@@ -61,6 +62,7 @@ export function App() {
           </div>
         )}
       </main>
+      <SiteFooter />
     </DemoProvider>
   );
 }

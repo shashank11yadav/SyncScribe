@@ -4,6 +4,8 @@ A real-time collaborative document editor with role-based sharing, version histo
 
 **Live demo: [shashank11yadav.github.io/SyncScribe](https://shashank11yadav.github.io/SyncScribe/)**. This is the in-browser demo: it runs entirely in your browser and syncs between your own tabs, with no server behind it.
 
+Write-up and other projects: [shashankyadav.dev/work/syncscribe](https://www.shashankyadav.dev/work/syncscribe)
+
 ![Two tabs of the live demo editing one document. Text typed in one appears in the other, and each cursor carries the other tab's name.](docs/live-demo.gif)
 
 *Two tabs of the GitHub Pages build editing the same document. Captured from the production build with `apps/demo/e2e/readme-media.spec.ts`.*
