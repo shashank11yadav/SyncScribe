@@ -5,6 +5,9 @@ updates:
     ignore:
       - dependency-name: typescript
         update-types: ["version-update:semver-major"]
+      # CI and Pages run Node 24, so keep the Node type definitions on the same major.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     directory: /
     schedule:
       interval: weekly
@@ -17,6 +20,10 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # codeql-action init and analyze must stay on the same version, so update actions together.
+    groups:
+      actions:
+        patterns: ["*"]
 
   - package-ecosystem: docker
     directory: /apps/sync
