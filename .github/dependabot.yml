@@ -9,6 +9,9 @@ updates:
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
     directory: /
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
@@ -18,6 +21,9 @@ updates:
 
   - package-ecosystem: github-actions
     directory: /
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
     schedule:
       interval: weekly
     # codeql-action init and analyze must stay on the same version, so update actions together.
@@ -27,5 +33,16 @@ updates:
 
   - package-ecosystem: docker
     directory: /apps/sync
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker-compose
+    directory: /
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
     schedule:
       interval: weekly
