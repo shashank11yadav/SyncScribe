@@ -38,6 +38,10 @@ updates:
       semver-major-days: 7
     schedule:
       interval: weekly
+    ignore:
+      # The image follows the runtime in .nvmrc and CI (24); a Node major is bumped by hand.
+      - dependency-name: "node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: docker-compose
     directory: /
